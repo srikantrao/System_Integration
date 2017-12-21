@@ -58,6 +58,26 @@ class DBWNode(object):
 
         # TODO: Subscribe to all the topics you need to
 
+        # Subscribe to the /twist_cmd topic
+        #rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cb)
+
+        # Subscribe to the /vehicle/dbw_enabled topic
+        #rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enabled_cb)
+
+        # Subscribe to the /current_velocity topic
+        #rospy.Subscriber('/current_velocity', TwistStamped, self.current_velocity_cb)
+
+        # Check if DBW is enabled
+        self.dbw_is_on = False
+
+        # Additional class variables needed for PID control
+
+        self.current_linear_velocity = 0
+        self.current_angular_velocity = 0
+
+        self.twist_linear_velocity = 0
+        self.twist_angular_velocity = 0
+
         self.loop()
 
     def loop(self):

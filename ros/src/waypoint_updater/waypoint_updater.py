@@ -3,7 +3,7 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
 from styx_msgs.msg import Lane, Waypoint
-
+from std_msgs.msg import Int32
 import math
 
 '''
@@ -25,27 +25,58 @@ LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this n
 
 
 class WaypointUpdater(object):
+    """
+    Subscribers -
+    Publishers -
+    Call Back methods
+        1.
+    """
     def __init__(self):
         rospy.init_node('waypoint_updater')
 
+        # TODO: Add other member variables you need below
+        # Additional class variables used in the callback functions
+        # Used in pose_cb
+        self.pose = None
+        self.position = None
+        self.orientation = None
+        self.waypoints = []
+        ## Will keep this to get the future waypoints that need to be calculated
+        self.final_waypoints_pub = []
+
+        # PoseStamped - Consists of Header and Pose( Point, Quarternion)
         rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
+        # Lane - Header and List of Waypoints(PoseStamped, TwistedStamped)
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
 
         # TODO: Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
-
+        ## The message type is based on rosmsg output
+        rospy.Subscriber('/traffic_waypoint', Int32 , self.traffic_cb)
+        rospy.Subscriber('/obstable_waypoint', Lane, self.obstacle_cb)
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
-        # TODO: Add other member variables you need below
+        # Publish the final waypoints
+        self.publishFinalWayPoints()
+
+
+        # Used in waypoints_cb
+
 
         rospy.spin()
 
     def pose_cb(self, msg):
-        # TODO: Implement
+
+        # Record the current pose
+        self.pose = msg.pose
+        self.position = msg.pose.position
+        self.orientation = msg.pose.orientation
         pass
 
     def waypoints_cb(self, waypoints):
-        # TODO: Implement
+        # Append the waypoints
+        for waypoint in waypoints.waypoints:
+            self.waypoints.append(waypoint)
         pass
 
     def traffic_cb(self, msg):
@@ -55,6 +86,26 @@ class WaypointUpdater(object):
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later
         pass
+
+    def publishFinalWayPoints(self):
+        rate = rospy.Rate(50)
+        # Build a dummy Lane msg
+        finalWayPoints = Lane()
+        finalWayPoints.header.stamp = rospy.Time().now().to_sec()
+        finalWayPoints.header.frame_id ='Dummy'
+        new_waypoints = []
+        for waypoint in self.waypoints:
+            new_waypoint = waypoint
+            new_waypoint.twist.twist.linear.x = waypoint.twist.twist.linear.x + 5
+            new_waypoints.append(new_waypoint)
+        ## This obviously needs to be modified
+        finalWayPoints.waypoints = new_waypoints
+
+        ## Publish the temporary final waypoints for now
+        self.final_waypoints_pub.publish(finalWayPoints)
+
+
+
 
     def get_waypoint_velocity(self, waypoint):
         return waypoint.twist.twist.linear.x
