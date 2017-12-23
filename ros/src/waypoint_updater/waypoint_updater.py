@@ -41,8 +41,6 @@ class WaypointUpdater(object):
         self.position = None
         self.orientation = None
         self.waypoints = []
-        ## Will keep this to get the future waypoints that need to be calculated
-        self.final_waypoints_pub = []
 
         # PoseStamped - Consists of Header and Pose( Point, Quarternion)
         rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
@@ -56,14 +54,16 @@ class WaypointUpdater(object):
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
+        rate = rospy.Rate(50)
+
         # Publish the final waypoints
         self.publishFinalWayPoints()
 
+        rate.sleep()
 
         # Used in waypoints_cb
 
-
-        rospy.spin()
+        #rospy.spin()
 
     def pose_cb(self, msg):
 
@@ -88,7 +88,8 @@ class WaypointUpdater(object):
         pass
 
     def publishFinalWayPoints(self):
-        rate = rospy.Rate(50)
+
+        print("Waypoints are now being printed ")
         # Build a dummy Lane msg
         finalWayPoints = Lane()
         finalWayPoints.header.stamp = rospy.Time().now().to_sec()
@@ -97,13 +98,12 @@ class WaypointUpdater(object):
         for waypoint in self.waypoints:
             new_waypoint = waypoint
             new_waypoint.twist.twist.linear.x = waypoint.twist.twist.linear.x + 5
+            print("New Linear velocity is {}".format(new_waypoint.twist.twist.linear.x))
             new_waypoints.append(new_waypoint)
         ## This obviously needs to be modified
         finalWayPoints.waypoints = new_waypoints
-
         ## Publish the temporary final waypoints for now
         self.final_waypoints_pub.publish(finalWayPoints)
-
 
 
 

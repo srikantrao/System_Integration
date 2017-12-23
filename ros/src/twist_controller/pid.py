@@ -1,6 +1,6 @@
 
-MIN_NUM = float('-inf')
-MAX_NUM = float('inf')
+MIN_NUM = float('-inf')  # Need to change these values
+MAX_NUM = float('inf')   # Need to change these values
 
 
 class PID(object):
@@ -14,10 +14,20 @@ class PID(object):
         self.int_val = self.last_int_val = self.last_error = 0.
 
     def reset(self):
+        """
+        Resets the integral error
+        :return:
+        """
         self.int_val = 0.0
         self.last_int_val = 0.0
 
     def step(self, error, sample_time):
+        """
+
+        :param error: The error after that particular actuation step
+        :param sample_time: time interval
+        :return: value (actuation) after applying PID control to it
+        """
         self.last_int_val = self.int_val
 
         integral = self.int_val + error * sample_time;
@@ -35,3 +45,7 @@ class PID(object):
         self.last_error = error
 
         return val
+
+    def twiddle(self):
+        """Implement an algorithm to optimize PID control parameters """
+        pass

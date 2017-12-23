@@ -43,9 +43,9 @@ class DBWTestNode(object):
         self.dbw_enabled = False
 
         base_path = os.path.dirname(os.path.abspath(__file__))
-        self.steerfile = os.path.join(base_path, 'steers.csv')
-        self.throttlefile = os.path.join(base_path, 'throttles.csv')
-        self.brakefile = os.path.join(base_path, 'brakes.csv')
+        self.steerfile = os.path.join(base_path, 'steers_ver3.csv')
+        self.throttlefile = os.path.join(base_path, 'throttles_ver3.csv')
+        self.brakefile = os.path.join(base_path, 'brakes_ver3.csv')
 
         self.loop()
 
