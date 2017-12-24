@@ -86,11 +86,12 @@ class DBWNode(object):
         # In vehicle co-ordinates, so only need X
         self.linear_velocity = msg.twist.linear.x
 
+
+
         # Yaw is in the Z axis --> Ignore Roll and Pitch
         self.angular_velocity = msg.twist.angular.z
 
-        print("The expected linear velocity is: {} and angular "
-              "velocity is {}".format(self.linear_velocity, self.angular_velocity))
+        rospy.logwarn("Linear Velocity: %.2f, Angular Velocity: %2f", self.linear_velocity, self.angular_velocity)
 
     def current_velocity_cb(self, msg):
         """
@@ -100,20 +101,29 @@ class DBWNode(object):
         """
         self.current_velocity = msg.twist.linear.x
 
+        rospy.logwarn("Current Velocity: %2f", self.current_velocity)
+
+
     def dbw_enabled_cb(self, msg):
-        self.dbw_is_on = msg
+        self.dbw_is_on = msg.data
 
 
     def loop(self):
-        rate = rospy.Rate(50) # 50Hz
+        #rate = rospy.Rate(50)
+
+        # Reducing the rate to try and get the simulator working
+        rate = rospy.Rate(50)
 
         # Time step - 1/50 = 0.02
         deltaT = 0.02
+
         while not rospy.is_shutdown():
             # TODO: Get predicted throttle, brake, and steering using `twist_controller`
             # You should only publish the control commands if dbw is enabled
             throttle, brake, steer = self.controller.control(self.linear_velocity, self.angular_velocity,
                                                                 self.current_velocity, deltaT, self.dbw_is_on)
+
+            rospy.logwarn("throttle:%.2f, brake:%.2f, steer:%.2f", throttle, brake, steer)
 
             if self.dbw_is_on:
                 self.publish(throttle, brake, steer)

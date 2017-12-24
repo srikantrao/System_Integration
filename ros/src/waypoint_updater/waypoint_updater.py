@@ -54,7 +54,7 @@ class WaypointUpdater(object):
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
-        rate = rospy.Rate(50)
+        rate = rospy.Rate(1)
 
         # Publish the final waypoints
         self.publishFinalWayPoints()
