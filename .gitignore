@@ -1,7 +1,6 @@
 *.py[cod]
-
 build
 devel
-data/**
-traffic_light_detection/**
+data
+traffic_light_detection
 profile.tmp
