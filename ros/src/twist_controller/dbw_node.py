@@ -86,8 +86,6 @@ class DBWNode(object):
         # In vehicle co-ordinates, so only need X
         self.linear_velocity = msg.twist.linear.x
 
-
-
         # Yaw is in the Z axis --> Ignore Roll and Pitch
         self.angular_velocity = msg.twist.angular.z
 

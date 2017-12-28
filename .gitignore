@@ -2,5 +2,6 @@
 
 build
 devel
-data
+data/**
+traffic_light_detection/**
 profile.tmp
