@@ -1,6 +1,8 @@
 *.py[cod]
 build
 devel
-data
-traffic_light_detection
+imgs/**
+data/**
+traffic_light_detection/**
 profile.tmp
+*.zim
