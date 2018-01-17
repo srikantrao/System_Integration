@@ -89,7 +89,7 @@ class DBWNode(object):
         # Yaw is in the Z axis --> Ignore Roll and Pitch
         self.angular_velocity = msg.twist.angular.z
 
-        rospy.logwarn("Linear Velocity: %.2f, Angular Velocity: %2f", self.linear_velocity, self.angular_velocity)
+        #rospy.logwarn("Linear Velocity: %.2f, Angular Velocity: %2f", self.linear_velocity, self.angular_velocity)
 
     def current_velocity_cb(self, msg):
         """
@@ -99,7 +99,7 @@ class DBWNode(object):
         """
         self.current_velocity = msg.twist.linear.x
 
-        rospy.logwarn("Current Velocity: %2f", self.current_velocity)
+        #rospy.logwarn("Current Velocity: %2f", self.current_velocity)
 
 
     def dbw_enabled_cb(self, msg):
@@ -121,7 +121,7 @@ class DBWNode(object):
             throttle, brake, steer = self.controller.control(self.linear_velocity, self.angular_velocity,
                                                                 self.current_velocity, deltaT, self.dbw_is_on)
 
-            rospy.logwarn("throttle:%.2f, brake:%.2f, steer:%.2f", throttle, brake, steer)
+            #rospy.logwarn("throttle:%.2f, brake:%.2f, steer:%.2f", throttle, brake, steer)
 
             if self.dbw_is_on:
                 self.publish(throttle, brake, steer)

@@ -92,13 +92,13 @@ class Controller(object):
             # Calculate the steering angle - Start off with just simple calculation
             steer = yc.get_steering(linear_velocity, angular_velocity, current_velocity)
 
-            rospy.logwarn("Steering Angle :%.2f", steer)
+            #rospy.logwarn("Steering Angle :%.2f", steer)
 
             # Use the throttle PID to figure out the next
             velocity_error = linear_velocity - current_velocity
             throttle = self.throttle_pid.step(velocity_error, deltaT)
 
-            rospy.logwarn("Velocity Error :%.2f, Throttle: %.2f", velocity_error, throttle)
+            #rospy.logwarn("Velocity Error :%.2f, Throttle: %.2f", velocity_error, throttle)
 
             # # Bound it based on ROSBAG output for actual car
             # if throttle > 0.025:
