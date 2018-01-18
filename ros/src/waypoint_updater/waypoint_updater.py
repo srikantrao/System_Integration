@@ -374,7 +374,7 @@ class WaypointUpdater(object):
                 rospy.logwarn("Traffic light is current Red")
             #Green lights have negative waypoints
             elif self.tlWaypoints < -1:
-                dist = self.distance(self.waypoints, self.currentWaypoints, -self.tlWaypoints)
+                dist = -self.distance(self.waypoints, self.currentWaypoints, -self.tlWaypoints)
                 rospy.logwarn("Traffic light is current Green")
         return dist
 
