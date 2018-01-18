@@ -57,7 +57,7 @@ class WaypointUpdater(object):
         self.currentWaypoints = None
         self.final_waypoints = []
         self.cruz_control = None
-        self.ideal_velocity = 30 * 0.44704 #Miles/seconds
+        #self.ideal_velocity = 30 * 0.44704 #Miles/seconds
         self.current_linear_velocity = 0
         self.current_angular_velocity = 0
         self.lights = None
@@ -65,7 +65,7 @@ class WaypointUpdater(object):
         self.posCount = 0
         self.tlWaypoints = None
         self.decelpoly = None
-        self.restricted_speed_in_mps = 0
+        self.restricted_speed_in_mps = 0 #Miles/seconds
         self.LOOKAHEAD_WPS = 200
         # Start the loop
         self.loop()
@@ -186,7 +186,7 @@ class WaypointUpdater(object):
         # calculate cross track error (cte) for throttle/braking
         tl_dist = self.dist2TL()
 
-        rospy.logwarn("Distance from Traffic Light is : %.2f.", tl_dist)
+        rospy.logwarn("Distance from Traffic Light is : {}".format(tl_dist))
 
         # if green light and is less than 16 meters away - reset and GO!
         if tl_dist is not None and tl_dist < 0. and tl_dist > -16.:
@@ -232,10 +232,11 @@ class WaypointUpdater(object):
         # Calculating trajectory
         for i in range(len(vptsx)):
             scte = polynomial([vptsx[i]])[0]
+            ideal_velocity = self.cruz_control([(velpolypoint - vptsd[i])])[0]
             # we are off by more than 2 meters per second!
-            if self.current_linear_velocity > (self.ideal_velocity + 2.):
+            if self.current_linear_velocity > (ideal_velocity + 2.):
                 # make hard correction.
-                self.ideal_velocity *= 0.25
+                ideal_velocity *= 0.25
 
             p = Waypoint()
             p.pose.pose.position.x = self.waypoints[(self.currentWaypoints + i) % wlen].pose.pose.position.x
@@ -245,7 +246,7 @@ class WaypointUpdater(object):
             p.pose.pose.orientation.y = self.waypoints[(self.currentWaypoints + i) % wlen].pose.pose.orientation.y
             p.pose.pose.orientation.z = self.waypoints[(self.currentWaypoints + i) % wlen].pose.pose.orientation.z
             p.pose.pose.orientation.w = self.waypoints[(self.currentWaypoints + i) % wlen].pose.pose.orientation.w
-            p.twist.twist.linear.x = self.ideal_velocity
+            p.twist.twist.linear.x = ideal_velocity
             p.twist.twist.linear.y = 0.
             p.twist.twist.linear.z = 0.
             p.twist.twist.angular.x = 0.
@@ -255,6 +256,7 @@ class WaypointUpdater(object):
 
         # set ideal velocity for current waypoint
         velocity = self.cruz_control([(velpolypoint - vptsd[0])])[0]
+        rospy.loginfo("Car velocity: {}".format(velocity))
 
     def waypoints_cb(self, msg):
         """
@@ -303,7 +305,7 @@ class WaypointUpdater(object):
 
             # use the restricted speed limit in mps to create our deceleration points (in reverse)
             wpx0 = [-self.LOOKAHEAD_WPS, 0, self.LOOKAHEAD_WPS]
-            wpy0 = [self.restricted_speed_in_mps, self.restricted_speed_in_mps, self.restricted_speed_in_mps]
+            wpy0 = [2*self.restricted_speed_in_mps, 2*self.restricted_speed_in_mps, 2*self.restricted_speed_in_mps]
             poly0 = np.polyfit(np.array(wpx0), np.array(wpy0), 2)
             self.cruzpoly = np.poly1d(poly0)
 
@@ -370,11 +372,11 @@ class WaypointUpdater(object):
         if self.tlWaypoints is not None:
             #Red or Yellow lights have positive waypoints
             if self.tlWaypoints > 0:
-                dist = self.distance(self.waypoints, self.currentWaypoints, self.tlWaypoints)
+                dist = self.distance(self.waypoints, self.currentWaypoints, self.currentWaypoints + self.tlWaypoints)
                 rospy.logwarn("Traffic light is current Red")
             #Green lights have negative waypoints
             elif self.tlWaypoints < -1:
-                dist = -self.distance(self.waypoints, self.currentWaypoints, -self.tlWaypoints)
+                dist = -self.distance(self.waypoints, self.currentWaypoints, self.currentWaypoints -self.tlWaypoints)
                 rospy.logwarn("Traffic light is current Green")
         return dist
 

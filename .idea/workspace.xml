@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0eeb7039-b7c9-4d4e-8256-8aae665e7916" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ros/src/__init__.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/.idea/misc.xml" afterPath="$PROJECT_DIR$/ros/src/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/.idea/src.iml" afterPath="$PROJECT_DIR$/ros/src/.idea/src.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/.idea/workspace.xml" afterPath="$PROJECT_DIR$/ros/src/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/tl_detector/launch/tl_detector.launch" afterPath="$PROJECT_DIR$/ros/src/tl_detector/launch/tl_detector.launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/tl_detector/light_classification/tl_classifier.py" afterPath="$PROJECT_DIR$/ros/src/tl_detector/light_classification/tl_classifier.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/tl_detector/tl_detector.py" afterPath="$PROJECT_DIR$/ros/src/tl_detector/tl_detector.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ros/src/waypoint_updater/waypoint_updater.py" afterPath="$PROJECT_DIR$/ros/src/waypoint_updater/waypoint_updater.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,8 +64,8 @@
       <file leaf-file-name="tl_detector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ros/src/tl_detector/tl_detector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="784">
-              <caret line="102" column="72" lean-forward="false" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="72" />
+            <state relative-caret-position="459">
+              <caret line="308" column="52" lean-forward="true" selection-start-line="308" selection-start-column="52" selection-end-line="308" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -74,8 +74,8 @@
       <file leaf-file-name="waypoint_updater.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ros/src/waypoint_updater/waypoint_updater.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7059">
-              <caret line="368" column="19" lean-forward="true" selection-start-line="368" selection-start-column="19" selection-end-line="368" selection-end-column="19" />
+            <state relative-caret-position="53">
+              <caret line="408" column="0" lean-forward="true" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
               <folding>
                 <element signature="e#23#35#0" expanded="true" />
               </folding>
@@ -119,8 +119,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1939" />
-    <option name="y" value="136" />
+    <option name="x" value="1919" />
+    <option name="y" value="148" />
     <option name="width" value="1880" />
     <option name="height" value="880" />
   </component>
@@ -318,16 +318,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ros/src/tl_detector/tl_detector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="784">
-          <caret line="102" column="72" lean-forward="false" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="72" />
+        <state relative-caret-position="459">
+          <caret line="308" column="52" lean-forward="true" selection-start-line="308" selection-start-column="52" selection-end-line="308" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ros/src/waypoint_updater/waypoint_updater.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7059">
-          <caret line="368" column="19" lean-forward="true" selection-start-line="368" selection-start-column="19" selection-end-line="368" selection-end-column="19" />
+        <state relative-caret-position="53">
+          <caret line="408" column="0" lean-forward="true" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
           <folding>
             <element signature="e#23#35#0" expanded="true" />
           </folding>
