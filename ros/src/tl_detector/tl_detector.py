@@ -75,6 +75,8 @@ class TLDetector(object):
             self.row = 600
             self.col = 800
             self.light_classifier = TLClassifier(self.path)
+        else:
+            self.light_classifier = TLClassifier(self.path)
         self.loop()
 
     def loop(self):
