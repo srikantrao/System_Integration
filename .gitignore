@@ -2,7 +2,6 @@
 build
 devel
 imgs/**
-data/**
 traffic_light_bag_files/**
 traffic_light_detection/**
 profile.tmp
