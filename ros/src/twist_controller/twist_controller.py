@@ -66,9 +66,10 @@ class Controller(object):
             self.max_steer_angle = 8
 
         # Use PID control for throttle and brake - if throttle is negative then use brake, else brake remains 0
-        Kp = 0.1
-        Ki = 0.0001
-        Kd = 0.05
+
+        Kp = 0.025
+        Ki = 0.00001
+        Kd = 0.0125
 
         self.throttle_pid = PID(Kp, Ki, Kd, self.decel_limit, self.accel_limit)
 
@@ -106,8 +107,9 @@ class Controller(object):
             #     brake = 0
 
             # Looser bound for running simulation
-            if throttle > 0.025:
-                throttle = 0.025
+
+            if throttle > 0.01:
+                throttle = 0.01
                 brake = 0
 
             # If throttle is negative, then brake needs to be activated

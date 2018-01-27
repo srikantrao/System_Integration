@@ -53,7 +53,9 @@ class WaypointUpdater(object):
         self.orientation = None
         self.theta = None
         self.waypoints = None
-        self.updateRate = 2  # Update rate in second
+
+        self.updateRate = 50  # Update rate in second
+
         self.currentWaypoints = None
         self.final_waypoints = []
         self.cruz_control = None
@@ -66,7 +68,8 @@ class WaypointUpdater(object):
         self.tlWaypoints = None
         self.decelpoly = None
         self.restricted_speed_in_mps = 0 #Miles/seconds
-        self.LOOKAHEAD_WPS = 200
+
+        self.LOOKAHEAD_WPS = 50
         # Start the loop
         self.loop()
 
@@ -187,6 +190,7 @@ class WaypointUpdater(object):
         tl_dist = self.dist2TL()
 
         #rospy.logwarn("Distance from Traffic Light is : {}".format(tl_dist))
+
 
         # if green light and is less than 16 meters away - reset and GO!
         if tl_dist is not None and tl_dist < 0. and tl_dist > -16.:

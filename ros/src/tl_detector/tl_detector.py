@@ -15,6 +15,7 @@ import numpy as np
 
 STATE_COUNT_THRESHOLD = 3
 tlStates = ['','RED','YELLOW','GREEN','UNKNOWN']
+
 LOOKAHEAD_WPS = 200
 
 class TLDetector(object):
@@ -69,7 +70,7 @@ class TLDetector(object):
         self.has_image = False
         self.path = rospy.get_param('~model_path')
         self.camera_topic = rospy.get_param('~camera_topic')
-        print("path: {}".format(self.path))
+
         if self.path == "NONE":
             self.light_classifier = None
         elif self.path.find("GAN") > 0:
@@ -77,7 +78,6 @@ class TLDetector(object):
             self.col = 800
             self.light_classifier = TLClassifier(self.path)
         else:
-            print("path: {}".format(self.path))
             self.light_classifier = TLClassifier(self.path)
         self.loop()
 
@@ -177,13 +177,14 @@ class TLDetector(object):
             self.orientation.z,
             self.orientation.w])
         self.theta = euler[2]
-        """
-        if self.light_classifier is not None:
-            if self.light_classifier.predict is None:
-            print ("Info: Traffic Light Detector Initializing.", self.attribute, self.camera_topic, self.has_image)
-            """
+
         if self.light_classifier is  None:
             print ("Warning: No Traffic Light Detector.")
+
+        #     if self.light_classifier.predict is None:
+        #     #print ("Info: Traffic Light Detector Initializing.", self.attribute, self.camera_topic, self.has_image)
+        # else:
+        #     #print ("Warning: No Traffic Light Detector.")
 
     def waypoints_cb(self, msg):
         """
@@ -298,7 +299,7 @@ class TLDetector(object):
             classification = self.light_classifier.get_classification(cv_image)
         else:
             classification = TrafficLight.UNKNOWN
-            print ("Traffic Light State: ", tlStates[classification])
+        print ("Traffic Light State: ", tlStates[classification])
         return classification
 
     def process_traffic_lights(self):
