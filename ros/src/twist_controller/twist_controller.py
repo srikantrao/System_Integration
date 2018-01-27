@@ -106,8 +106,8 @@ class Controller(object):
             #     brake = 0
 
             # Looser bound for running simulation
-            if throttle > 0.2:
-                throttle = 0.2
+            if throttle > 0.025:
+                throttle = 0.025
                 brake = 0
 
             # If throttle is negative, then brake needs to be activated

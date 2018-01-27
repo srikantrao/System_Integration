@@ -19,7 +19,7 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 200  # Number of waypoints we will publish. You can change this number
+LOOKAHEAD_WPS = 50  # Number of waypoints we will publish. You can change this number
 
 # states
 INIT = 0
@@ -83,7 +83,7 @@ class WaypointUpdater(object):
                 self.getNextWaypoints(self.LOOKAHEAD_WPS)
                 self.publish()
 
-            rospy.logwarn("Restricted Velocity is %.2f", self.restricted_speed_in_mps)
+            #rospy.logwarn("Restricted Velocity is %.2f", self.restricted_speed_in_mps)
             rate.sleep()
 
 
@@ -186,7 +186,7 @@ class WaypointUpdater(object):
         # calculate cross track error (cte) for throttle/braking
         tl_dist = self.dist2TL()
 
-        rospy.logwarn("Distance from Traffic Light is : {}".format(tl_dist))
+        #rospy.logwarn("Distance from Traffic Light is : {}".format(tl_dist))
 
         # if green light and is less than 16 meters away - reset and GO!
         if tl_dist is not None and tl_dist < 0. and tl_dist > -16.:
