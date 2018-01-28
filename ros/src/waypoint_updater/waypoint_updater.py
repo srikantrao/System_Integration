@@ -19,7 +19,7 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 50  # Number of waypoints we will publish. You can change this number
+LOOKAHEAD_WPS = 200  # Number of waypoints we will publish. You can change this number
 
 # states
 INIT = 0
@@ -69,7 +69,7 @@ class WaypointUpdater(object):
         self.decelpoly = None
         self.restricted_speed_in_mps = 0 #Miles/seconds
 
-        self.LOOKAHEAD_WPS = 50
+        self.LOOKAHEAD_WPS = 200
         # Start the loop
         self.loop()
 

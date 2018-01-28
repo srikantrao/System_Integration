@@ -44,7 +44,7 @@ class Controller(object):
 
         # Use PID control for throttle and brake -
         # if throttle is negative then use brake, else brake remains 0
-        Kp = 0.1
+        Kp = 0.3
         Ki = 0.001
         Kd = 0.025
 
