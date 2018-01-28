@@ -45,6 +45,7 @@ class DBWNode(object):
         self.steer_ratio = rospy.get_param('~steer_ratio', 14.8)
         self.max_lat_accel = rospy.get_param('~max_lat_accel', 3.)
         self.max_steer_angle = rospy.get_param('~max_steer_angle', 8.)
+        self.simulation = rospy.get_param('~simulation', False)
 
         ## Initialize all velocities
         self.linear_velocity = 0
@@ -62,7 +63,7 @@ class DBWNode(object):
         #                              self.decel_limit, self.accel_limit, self.wheel_radius,
         #                              self.wheel_base, self.steer_ratio, self.max_lat_accel,self.max_steer_angle)
 
-        self.controller = Controller()
+        self.controller = Controller(self.simulation)   # To check whether it is simulation or on actual site 
 
         # TODO: Subscribe to all the topics you need to
 
