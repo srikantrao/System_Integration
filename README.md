@@ -97,6 +97,20 @@ Open another terminal and go to CarND-Capstone/ros
 source devel/setupbash
 rosrun tools rosbagVisual.py
 ```
+## Object Detection
+We have explored multiple options to detect traffic lights: firs t one was building our own Deep Convolutional Neural  Network (CNN) and using pre-trained models. 
+
+What we noticed that we need a more data to train our CNN models to have a good model. Due to the limmitted training data and training time constraints we ended up using pre-trained object detection model (Fast Region-based Convolutional Network ). Here is the model link: https://github.com/tensorflow/models/tree/master/research/object_detection
+
+A jupyter notbook was created to test the model accuracy and here are the some outputs. Please refer to the notebook, ~/classifier/faster-R-CNN/object_detection.ipynb, for more details.
+
+![Green]("/output_images/GREEN.png")
+
+![Yellow]("/output_images/YELLOW.png")
+
+![Red]("/output_images/RED.png")
+
+
 
 ## Implementation Details
 
