@@ -2,10 +2,10 @@ This is the project repo for the final project of the Udacity Self-Driving Car N
 
 ###Team
 
-| Team Members   | Location      |
-| ------------- | ------------- |
-| Onur Ucler    | Folsom, CA    |
-| Srikant Rao   | Folsom, CA    |
+| Team Members   | Email Address | Location      |
+| ------------- | ------------- |----------------|
+| Onur Ucler    | oucler@gmail.com | Folsom, CA    |
+| Srikant Rao   | rao.shrikant@gmail.com | Folsom, CA    |
 
 ### Simulator Result
 
