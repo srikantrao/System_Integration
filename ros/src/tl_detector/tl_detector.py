@@ -344,7 +344,7 @@ class TLDetector(object):
         if self.isSimulation:
             lightIndex = self.find_closest_light(self.pose)
             if lightIndex >=0:
-                rospy.logwarn("The traffic light is currently: %s", self.lights[lightIndex].state)
+                #rospy.logwarn("The traffic light is currently: %s", self.lights[lightIndex].state)
                 return self.lights[lightIndex].state
         else:
             if (not self.has_image):

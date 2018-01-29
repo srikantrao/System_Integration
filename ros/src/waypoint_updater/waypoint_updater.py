@@ -54,7 +54,7 @@ class WaypointUpdater(object):
         self.theta = None
         self.waypoints = None
 
-        self.updateRate = 10  # Update rate in second
+        self.updateRate = 5  # Update rate in second
 
         self.currentWaypoints = None
         self.final_waypoints = []

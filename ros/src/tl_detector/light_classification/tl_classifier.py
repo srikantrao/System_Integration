@@ -85,6 +85,7 @@ class TLClassifier(object):
 
         run_network = True  # flag to disable running network if desired
 
+        class_id = 0
         if run_network is True:
             image_np_expanded = np.expand_dims(image, axis=0)
 
@@ -115,7 +116,7 @@ class TLClassifier(object):
                 if scores is None or scores[i] > min_score_thresh:
                     
                     class_name = self.category_index[classes[i]]['name']
-                    # class_id = self.category_index[classes[i]]['id']  # if needed
+                    class_id = self.category_index[classes[i]]['id']  # if needed
 
                     print('Traffic Light State: {}'.format(class_name))
 
@@ -160,4 +161,4 @@ class TLClassifier(object):
         self.image_np_deep = image
 
        
-        return self.current_light
+        return class_id
