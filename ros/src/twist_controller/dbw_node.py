@@ -3,7 +3,8 @@
 import rospy
 from std_msgs.msg import Bool
 from dbw_mkz_msgs.msg import ThrottleCmd, SteeringCmd, BrakeCmd, SteeringReport
-from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import TwistStamped, PoseStamped
+from styx_msgs.msg import Lane
 import math
 
 from twist_controller import Controller
@@ -51,6 +52,7 @@ class DBWNode(object):
         self.linear_velocity = 0
         self.angular_velocity = 0
         self.current_velocity = 0
+        self.current_angular_velocity = 0
         self.dbw_is_on = False
 
         # Asynchronous publish with queue size of 1
@@ -73,8 +75,9 @@ class DBWNode(object):
         # Subscribe to the /vehicle/dbw_enabled topic --> get self.dwb_is_on from here
         rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enabled_cb)
 
-        # Subscribe to the /current_velocity topic --> get current_velocity from here
+        # Subscribe to the /current_velocity topic --> get current_velocity  and current_angular_velocity from here
         rospy.Subscriber('/current_velocity', TwistStamped, self.current_velocity_cb)
+
 
         self.loop()
 
@@ -98,17 +101,22 @@ class DBWNode(object):
         :param msg: TwistStamped message based on rosmsg info
         :return: Side effect is that self.current_velocity gets updated
         """
+        # Get the current linear velocity
         self.current_velocity = msg.twist.linear.x
 
+        # Get the current angular velocity
+        self.current_angular_velocity = msg.twist.angular.z
         #rospy.logwarn("Current Velocity: %2f", self.current_velocity)
 
 
     def dbw_enabled_cb(self, msg):
-        self.dbw_is_on = msg.data
+        """
+        Callback to check if the Drive by wire is enabled or not
+        """
+        self.dbw_is_on = bool(msg.data)
 
 
     def loop(self):
-        #rate = rospy.Rate(50)
 
         # Reducing the rate to try and get the simulator working
         rate = rospy.Rate(50)

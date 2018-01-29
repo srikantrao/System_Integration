@@ -44,15 +44,26 @@ class Controller(object):
 
         # Use PID control for throttle and brake -
         # if throttle is negative then use brake, else brake remains 0
-        Kp = 0.3
-        Ki = 0.001
-        Kd = 0.025
+        Kp = 0.1
+        Ki = 0.0001
+        Kd = 0.05
 
+        # Throttle and Brake control
         self.throttle_pid = PID(Kp, Ki, Kd, self.decel_limit, self.accel_limit)
+        # Use filtering ( exp window of 5 )
+        self.brake_filter = LowPassFilter(0.2, 0.8)
+        self.throttle_filter = LowPassFilter(0.2, 0.8)
 
+        #Steering Control
+        self.prev_steer = 0
+        if self.simulation:
+            # Using low pass filter or Exponentiall Weighted Averages - average over 25
+            self.steer_filter = LowPassFilter(0.04, 0.96)
+        else:
+            # Using low pass filter or Exponentiall Weighted Averages - average over 10
+            self.steer_filter = LowPassFilter(0.1, 0.9)
     def control(self, linear_velocity, angular_velocity, current_velocity, deltaT, dbw_is_on):
         """
-
         :param args: At a minimum will need the linear_velocity, angular_velocity and current_velocity.
         Look at yaw_controller for more details about each param.
         :param kwargs:
@@ -70,20 +81,27 @@ class Controller(object):
             # Calculate the steering angle - Start off with just simple calculation
             steer = yc.get_steering(linear_velocity, angular_velocity, current_velocity)
 
+            # Use the LowPass filtering function here
+            steer = self.steer_filter.filt(steer)
+
+            #Update the prev_steer value
+            self.prev_steer =steer
+
             #rospy.logwarn("Steering Angle :%.2f", steer)
 
             # Use the throttle PID to figure out the next
             velocity_error = linear_velocity - current_velocity
             throttle = self.throttle_pid.step(velocity_error, deltaT)
 
-            #rospy.logwarn("Velocity Error :%.2f, Throttle: %.2f", velocity_error, throttle)
+            rospy.logwarn("Velocity Error :%.2f, Throttle: %.2f", velocity_error, throttle)
 
             # If throttle is negative, then brake needs to be activated
             if throttle < 0:
                 brake = -throttle
                 throttle = 0
-                if brake > 0.1:
-                    brake = 0.1
+                if brake > 0.2:
+                    brake = 0.2
+                rospy.logwarn("Car is braking Brake:%.2f", brake)
 
             # Looser bound for running simulation
             if self.simulation:
@@ -95,6 +113,10 @@ class Controller(object):
                 if throttle > 0.01:
                     throttle = 0.01
                     brake = 0
+
+            # Filter Throttle and Brake values
+            throttle = self.throttle_filter.filt(throttle)
+            brake = self.brake_filter.filt(brake)
 
         else:
             # Control is now with the driver, so reset the PID controller

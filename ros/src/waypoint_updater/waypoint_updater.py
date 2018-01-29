@@ -54,7 +54,7 @@ class WaypointUpdater(object):
         self.theta = None
         self.waypoints = None
 
-        self.updateRate = 50  # Update rate in second
+        self.updateRate = 10  # Update rate in second
 
         self.currentWaypoints = None
         self.final_waypoints = []
@@ -377,11 +377,11 @@ class WaypointUpdater(object):
             #Red or Yellow lights have positive waypoints
             if self.tlWaypoints > 0:
                 dist = self.distance(self.waypoints, self.currentWaypoints, self.currentWaypoints + self.tlWaypoints)
-                rospy.logwarn("Traffic light is current Red")
+                #rospy.logwarn("Traffic light is current Red")
             #Green lights have negative waypoints
             elif self.tlWaypoints < -1:
                 dist = -self.distance(self.waypoints, self.currentWaypoints, self.currentWaypoints -self.tlWaypoints)
-                rospy.logwarn("Traffic light is current Green")
+                #rospy.logwarn("Traffic light is current Green")
         return dist
 
     def traffic_cb(self, msg):
